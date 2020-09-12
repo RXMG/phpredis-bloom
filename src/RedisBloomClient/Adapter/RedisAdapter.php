@@ -109,7 +109,7 @@ class RedisAdapter implements RedisAdapterInterface
             $connect = $this->redis->connect(...$connectionValues);    
         }
         
-        if ($connect && $pasword) {
+        if ($connect && $password) {
             $this->redis->auth($password);    
         }
         
