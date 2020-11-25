@@ -13,6 +13,7 @@
 namespace Averias\RedisBloom\Adapter;
 
 use Averias\RedisBloom\Connection\ConnectionOptions;
+use Averias\RedisBloom\Enum\BloomCommands;
 use Averias\RedisBloom\Exception\ConnectionException;
 use Averias\RedisBloom\Exception\RedisBloomModuleNotInstalledException;
 use Averias\RedisBloom\Exception\ResponseException;
@@ -77,8 +78,9 @@ class AdapterProvider
      */
     protected function validateRedisBloomModuleInstalled(RedisClientAdapterInterface $redisClientAdapter): void
     {
-        $modules = $redisClientAdapter->executeRawCommand('MODULE', 'list');
-        if (!$this->validator->isRedisBloomModuleInstalled($modules)) {
+        try {
+            $redisClientAdapter->executeRawCommand(BloomCommands::BF_EXISTS, '0', '0');
+        } catch (\Exception $e) {
             throw new RedisBloomModuleNotInstalledException('RedisBloom module not installed in Redis server.');
         }
     }
