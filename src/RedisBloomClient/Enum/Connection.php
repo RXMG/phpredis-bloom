@@ -22,6 +22,7 @@ class Connection extends Enum
     const RETRY_INTERVAL = 'retryInterval';
     const READ_TIMEOUT = 'readTimeout';
     const PERSISTENCE_ID = 'persistenceId';
+    const PASSWORD = 'password';
     const DATABASE = 'database';
 
     const DEFAULT = [
@@ -31,6 +32,7 @@ class Connection extends Enum
         self::RETRY_INTERVAL => 0,
         self::READ_TIMEOUT => 0,
         self::PERSISTENCE_ID => null,
+        self::PASSWORD => null,
         self::DATABASE => 0
     ];
 }

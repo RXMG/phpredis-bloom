@@ -36,6 +36,9 @@ class ConnectionOptions
 
     /** @var string */
     private $persistentId;
+    
+    /** @var string */
+    private $password;
 
     /** @var int */
     private $database;
@@ -62,6 +65,9 @@ class ConnectionOptions
 
         $persistent = $config[Connection::PERSISTENCE_ID] ?? Connection::DEFAULT[Connection::PERSISTENCE_ID];
         $this->setPersistentId($persistent);
+        
+        $password = $config[Connection::PASSWORD] ?? Connection::DEFAULT[Connection::PASSWORD];
+        $this->setPassword($password);
 
         $database = $config[Connection::DATABASE] ?? Connection::DEFAULT[Connection::DATABASE];
         $this->setDatabase($database);
@@ -205,6 +211,24 @@ class ConnectionOptions
         $this->persistentId = $persistentId;
         return $this;
     }
+    
+    /**
+     * @return string|null password for connection
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string|null $password for the connection or null for none
+     * @return ConnectionOptions
+     */
+    public function setPassword(?string $password): ConnectionOptions
+    {
+        $this->password = $password;
+        return $this;
+    }    
 
     public function getConnectionValues(): array
     {
@@ -214,7 +238,8 @@ class ConnectionOptions
             $this->getTimeout(),
             $this->getPersistentId(),
             $this->getRetryInterval(),
-            $this->getReadTimeout()
+            $this->getReadTimeout(),
+            $this->getPassword(),
         ];
     }
 }

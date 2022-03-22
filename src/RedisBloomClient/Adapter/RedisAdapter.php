@@ -100,11 +100,20 @@ class RedisAdapter implements RedisAdapterInterface
     public function connect(): bool
     {
         $connectionValues = $this->connectionOptions->getConnectionValues();
+        
+        $password = array_pop($connectionValues);
+        
         if ($this->connectionOptions->isPersistent()) {
-            return  $this->redis->pconnect(...$connectionValues);
+            $connect = $this->redis->pconnect(...$connectionValues);
+        } else {
+            $connect = $this->redis->connect(...$connectionValues);    
         }
-
-        return $this->redis->connect(...$connectionValues);
+        
+        if ($connect && $password) {
+            $this->redis->auth($password);    
+        }
+        
+        return  $connect;
     }
 
     /** Close a persistent connection. If connection is not persistent, it is not connected or there is an error closing
